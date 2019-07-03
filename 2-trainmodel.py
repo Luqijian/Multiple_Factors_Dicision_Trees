@@ -45,25 +45,25 @@ tree.export_graphviz(clf, out_file=dot_data)
 # graph = pydot.graph_from_dot_data(dot_data.getvalue())
 # graph[0].write_pdf("iris.pdf")
 graph = pydotplus.graph_from_dot_data(dot_data.getvalue())
-graph.write_pdf("iris2.pdf")
+graph.write_pdf("TheTree.pdf")
 
-with open('allElectronicInformationGainOri.dot', 'w') as f:
+with open('allDataInformationGainOri.dot', 'w') as f:
     f = tree.export_graphviz(clf, feature_names=vec.get_feature_names(), out_file=f)
-    # 通过命令行dot -Tpdf allElectronicInformationGainOri.dot -o output.pdf 输出树形结构
+    # 通过命令行dot -Tpdf allDataInformationGainOri.dot -o output.pdf 输出树形结构
 
-# 预测数据
-one = dummyX[2, :]
-print('one' + str(one))
-# one输出为one[1. 0. 0. 0. 1. 1. 0. 0. 1. 0.]
-# 上面的数据对应下面列表：
-# ['age=middle_aged', 'age=senior', 'age=youth', 'credit_rating=excellent', 'credit_rating=fair', 'income=high', 'income=low', 'income=medium', 'student=no', 'student=yes']
+# # 预测数据
+# one = dummyX[2, :]
+# print('one' + str(one))
+# # one输出为one[1. 0. 0. 0. 1. 1. 0. 0. 1. 0.]
+# # 上面的数据对应下面列表：
+# # ['age=middle_aged', 'age=senior', 'age=youth', 'credit_rating=excellent', 'credit_rating=fair', 'income=high', 'income=low', 'income=medium', 'student=no', 'student=yes']
 
-# 设置新数据
-new = one
-new[4] = 1
-new[3] = 0
-predictedY = clf.predict(new.reshape(-1, 10))  # 对新数据进行预测
-print('predictedY:' + str(predictedY))  # 输出为predictedY:[1]，表示愿意购买，1表示yes
+# # 设置新数据
+# new = one
+# new[4] = 1
+# new[3] = 0
+# predictedY = clf.predict(new.reshape(-1, 10))  # 对新数据进行预测
+# print('predictedY:' + str(predictedY))  # 输出为predictedY:[1]，表示愿意购买，1表示yes
 
-if __name__ == '__main__':
-    pass
+# if __name__ == '__main__':
+#     pass
