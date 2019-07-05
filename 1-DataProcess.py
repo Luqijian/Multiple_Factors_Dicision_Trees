@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import xlrd
 import csv
 import codecs
@@ -17,8 +19,6 @@ def xlsx_to_csv():
 
 # 对csv数据进行预处理，以得到方便进行训练的数据格式
 def csv_process():
-    db = pd.read_csv('database.csv')
-    db = pd.DataFrame(db)
     #  按需求格式化每一列的数据，如删除A1列数据中的“A1”
     db['A1'] = db['A1'].map(lambda x: str(x)[2])
     db['A3'] = db['A3'].map(lambda x: str(x)[2])
@@ -37,7 +37,37 @@ def csv_process():
     db.to_csv('processeddata.csv')
 
 
+# 数据截取，按信用风险评估结果和题目要求的比例进行截取
+def csv_cut(db_positive_m, db_negative_m):    
+    db_positive.to_csv('positivedata.csv', encoding='utf8')
+    db_negative.to_csv('negativedata.csv', encoding='utf8')
+
+# 数据合并，将截取到的用于建立模型的80%的数据合并到同一个csv文件中
+def csv_merge(db_positive_m, db_negative_m):
+    db_merge = pd.concat([db_positive_m, db_negative_m], axis=0)
+    db_merge.to_csv('mergeddata.csv', encoding='utf8')
+
+# 划分出用于评价模型的数据
+def csv_predict(db_positive_p, db_negative_p):
+    db_predict = pd.concat([db_positive_p, db_negative_p], axis=0)
+    db_predict.to_csv('predictdata.csv', encoding='utf8')
+
+
 if __name__ == "__main__":
+    db = pd.read_csv('database.csv')
+    db = pd.DataFrame(db)
+
     xlsx_to_csv()
     csv_process()
+
+    db_positive = db[db.Class == 1]
+    db_negative = db[db.Class == 2]
+    db_positive_m = db_positive[:560]
+    db_negative_m = db_negative[:240]
+    db_positive_p = db_positive[560:]
+    db_negative_p = db_negative[240:]
+
+    csv_cut(db_positive_m, db_negative_m)
+    csv_merge(db_positive_m, db_negative_m)
+    csv_predict(db_positive_p, db_negative_p)
 

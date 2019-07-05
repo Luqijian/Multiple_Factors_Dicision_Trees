@@ -3,6 +3,8 @@
     <words>
       <w>labellist</w>
       <w>lable</w>
+      <w>negativedata</w>
+      <w>positivedata</w>
       <w>processeddata</w>
       <w>pydot</w>
       <w>tpdf</w>
