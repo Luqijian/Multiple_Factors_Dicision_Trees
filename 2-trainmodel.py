@@ -26,16 +26,11 @@ def data_Preprocess():
         vec = DictVectorizer()
         dummyX = vec.fit_transform(featureList).toarray()
 
-        # print('dummyX:' + str(dummyX))
-        # print(vec.get_feature_names())
-        # print('labellist:' + str(labelList))
-
         # 将要预测的列转化为数组
         lb = preprocessing.LabelBinarizer()
         dummyY = lb.fit_transform(labelList)
         # print('dummyY:' + str(dummyY))
-
-                
+        
         X_train, X_test, y_train, y_test= train_test_split(dummyX, dummyY, test_size=0.2, random_state=0)
 
         return X_train, X_test, y_train, y_test, vec
@@ -63,60 +58,9 @@ def build_tree(X_train, X_test, y_train, y_test, vec):
         with open('allDataInformationGainOri.dot', 'w') as f:
                 f = tree.export_graphviz(clf, feature_names=vec.get_feature_names(), out_file=f)
         # 通过命令行dot -Tpdf allDataInformationGainOri.dot -o output.pdf 输出树形结构
-        # return clf
-
-
-# # 准备用于评价的数据集
-# def pdata_Preprocess():
-#         dataset = open('predictdata.csv', 'r', encoding='utf8')
-#         dataset = csv.reader(dataset)
-#         headers = next(dataset)
-
-#         # 将每一行的数据按字典的形式存入列表
-#         featureList = []
-#         labelList = []
-#         for row in [rows for rows in dataset]:
-#                 labelList.append(row[len(row) - 1])
-#                 rowDict = {}
-#                 for i in range(1, len(row) - 1):
-#                         rowDict[headers[i]] = row[i]
-#                 featureList.append(rowDict)
-
-#         # 将原始数据转化为矩阵
-#         vec = DictVectorizer()
-#         dummyX = vec.fit_transform(featureList).toarray()
-
-#         # 将要预测的列转化为数组
-#         lb = preprocessing.LabelBinarizer()
-#         dummyY = lb.fit_transform(labelList)
-
-#         return dummyX, dummyY
-
-
-# # 使用百分之二十的数据集对模型准确性进行评价
-# def tree_predict(dummyX_p, dummyY_p, clf_p):
-#         # # 预测数据
-#         # one = dummyX_p[2, :]
-#         # print('one' + str(one))
-#         # # one输出为one[1. 0. 0. 0. 1. 1. 0. 0. 1. 0.]
-#         # # 上面的数据对应下面列表：
-#         # # ['age=middle_aged', 'age=senior', 'age=youth', 'credit_rating=excellent', 'credit_rating=fair', 'income=high', 'income=low', 'income=medium', 'student=no', 'student=yes']
-
-#         # # 设置新数据
-#         # new = one
-#         # new[4] = 1
-#         # new[3] = 0
-#         # predictedY = clf_p.predict(new.reshape(-1, 10))  # 对新数据进行预测
-#         # print('predictedY:' + str(predictedY))  # 输出为predictedY:[1]，表示愿意购买，1表示yes
-#         score = clf_p.score(dummyX_p, dummyY_p)
-#         print(score)
-
 
 
 if __name__ == '__main__':
-        X_train, X_test, y_train, y_test, vec = data_Preprocess()
-        # clf_p = 
+        X_train, X_test, y_train, y_test, vec = data_Preprocess() 
         build_tree(X_train, X_test, y_train, y_test, vec)
-        # dummyX_p, dummyY_p = pdata_Preprocess()
-        # tree_predict(dummyX_p, dummyY_p, clf_p)
 
