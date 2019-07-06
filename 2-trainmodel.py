@@ -17,9 +17,9 @@ def data_Preprocess():
         for row in [rows for rows in dataset]:
                 labelList.append(row[len(row) - 1])
                 rowDict = {}
-        for i in range(1, len(row) - 1):
-                rowDict[headers[i]] = row[i]
-        featureList.append(rowDict)
+                for i in range(1, len(row) - 1):
+                        rowDict[headers[i]] = row[i]
+                featureList.append(rowDict)
 
         # 将原始数据转化为矩阵
         vec = DictVectorizer()
@@ -43,8 +43,8 @@ def build_tree(dummyX_b, dummyY_b, vec_b):
         clf = tree.DecisionTreeClassifier(criterion='entropy')  # 指明为ID3算法,信息增益设置为熵(entropy)
         clf = clf.fit(dummyX_b, dummyY_b)
 
-        score = clf.score(dummyX_b, dummyY_b)
-        print(score)
+        # score = clf.score(dummyX_b, dummyY_b)
+        # print(score)
 
         print('clf:' + str(clf))
 
@@ -74,9 +74,9 @@ def pdata_Preprocess():
         for row in [rows for rows in dataset]:
                 labelList.append(row[len(row) - 1])
                 rowDict = {}
-        for i in range(1, len(row) - 1):
-                rowDict[headers[i]] = row[i]
-        featureList.append(rowDict)
+                for i in range(1, len(row) - 1):
+                        rowDict[headers[i]] = row[i]
+                featureList.append(rowDict)
 
         # 将原始数据转化为矩阵
         vec = DictVectorizer()
@@ -111,8 +111,7 @@ def tree_predict(dummyX_p, dummyY_p, clf_p):
 
 if __name__ == '__main__':
         dummyX_b, dummyY_b, vec_b = data_Preprocess()
-        # clf_p = 
-        build_tree(dummyX_b, dummyY_b, vec_b)
-        # dummyX_p, dummyY_p = pdata_Preprocess()
-        # tree_predict(dummyX_p, dummyY_p, clf_p)
+        clf_p = build_tree(dummyX_b, dummyY_b, vec_b)
+        dummyX_p, dummyY_p = pdata_Preprocess()
+        tree_predict(dummyX_p, dummyY_p, clf_p)
 
